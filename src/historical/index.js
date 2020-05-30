@@ -1,5 +1,5 @@
 const CoinbasePro = require('coinbase-pro')
-const Candlestick = require('./models/candlestick')
+const Candlestick = require('../models/candlestick')
 
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))

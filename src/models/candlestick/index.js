@@ -1,4 +1,6 @@
+//This module collects information about a particular candlestick
 class Candlestick {
+    
     constructor ({
         low, high, close, open, interval, startTime = new Date(), volume
     }) {
