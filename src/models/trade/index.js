@@ -12,3 +12,5 @@ class Trade {
         this.size = size
     }
 }
+
+module.exports = Trade

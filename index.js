@@ -7,6 +7,7 @@ So we will receive 288 data points of the past
 // Requires
 const program = require('commander')
 const Historical = require('./src/historical')
+const Backtester = require('./src/backtester')
 const config = require("./configuration")
 
 //Get current date and time (It is in UTC)
@@ -33,14 +34,9 @@ program.version('1.0.0')
 const main = async function() {
   const { interval, product, start, end } = program
 
-  const service = new Historical({ start, end, product, interval }) //Create a new object of Historical
+  const tester = new Backtester({ start, end, product, interval }) //Create a new object of Historical
   
-  const data = await service.getData() //Get data.
-  
-  console.log(data[0])
-  console.log(data[data.length - 1])
-  console.log(data.length)
-  
+  await tester.start()
 }
 
 main()

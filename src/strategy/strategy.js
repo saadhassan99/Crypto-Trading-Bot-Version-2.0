@@ -18,8 +18,12 @@ class Strategy {
 
     }
 
-    openPosition() {
-        return this.positions.filter(p => p.state == 'open')
+    getPositions() {
+        return Object.keys(this.positions). map((k) => this.positions[k])
+    }
+
+    openPositions() {
+        return this.getPositions().filter(p => p.state == 'open')
     }
 
     async positionOpened({ price, time, amount, id }) {

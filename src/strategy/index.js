@@ -1,3 +1,3 @@
-const Simple = require('./simple')
+const simple = require('./simple')
 
-exports.Simple = Simple
+exports.simple = simple
