@@ -25,6 +25,7 @@ program.version('1.0.0')
   .option('-p, --product [product]', 'Product Identifier', 'BTC-USD')
   .option('-s, --start [start]', 'Start Time in Unix seconds', toDate, yesterday)
   .option('-e, --end [end]', 'End time in unix seconds', toDate, now)
+  .option('-t, --strategy [strategy]', 'Strategy Type')
   .parse(process.argv)
 
 // To set api key and all that safely, do this on the command line:
@@ -32,9 +33,9 @@ program.version('1.0.0')
 
 //The code starts executing from the main.
 const main = async function() {
-  const { interval, product, start, end } = program
+  const { interval, product, start, end, strategy } = program
 
-  const tester = new Backtester({ start, end, product, interval }) //Create a new object of Historical
+  const tester = new Backtester({ start, end, product, interval, strategyType: strategy }) //Create a new object of Historical
   
   await tester.start()
 }
