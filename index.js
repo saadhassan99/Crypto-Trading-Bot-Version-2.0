@@ -6,9 +6,10 @@ So we will receive 288 data points of the past
 */
 // Requires
 const program = require('commander')
-const Historical = require('./src/historical')
 const Backtester = require('./src/backtester')
-const config = require("./configuration")
+const Trader = require('./src/trader')
+const config = require('./configuration')
+const Ticker = require('./src/ticker')
 
 //Get current date and time (It is in UTC)
 const now = new Date()
@@ -26,6 +27,7 @@ program.version('1.0.0')
   .option('-s, --start [start]', 'Start Time in Unix seconds', toDate, yesterday)
   .option('-e, --end [end]', 'End time in unix seconds', toDate, now)
   .option('-t, --strategy [strategy]', 'Strategy Type')
+  .option('-l, --live', 'Run live')
   .parse(process.argv)
 
 // To set api key and all that safely, do this on the command line:
@@ -33,11 +35,22 @@ program.version('1.0.0')
 
 //The code starts executing from the main.
 const main = async function() {
-  const { interval, product, start, end, strategy } = program
+  const { interval, product, start, end, strategy, live } = program
 
-  const tester = new Backtester({ start, end, product, interval, strategyType: strategy }) //Create a new object of Historical
-  
-  await tester.start()
+  if (live) {
+    const trader = new Trader({
+      start, end, product, interval, strategyType: strategy
+    })
+
+    await trader.start()
+
+  } else {
+    const tester = new Backtester({ 
+      start, end, product, interval, strategyType: strategy 
+    }) //Create a new object of Historical
+    
+    await tester.start()
+  }
 }
 
 main()
