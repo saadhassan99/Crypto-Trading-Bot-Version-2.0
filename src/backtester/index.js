@@ -17,6 +17,7 @@ class Backtester extends Runner {
             }))
 
             this.printPositions()
+            this.printProfit()
 
         } catch (error) {
             console.log(error)

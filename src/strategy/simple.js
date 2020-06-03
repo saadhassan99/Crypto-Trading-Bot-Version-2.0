@@ -9,10 +9,6 @@ class SimpleStrategy extends Strategy {
     const last = sticks[len - 1].close
     const price = last
 
-    console.log(sticks.length)
-    console.log(penu)
-    console.log(last)
-
     const open = this.openPositions()
 
     if (open.length == 0) {

@@ -40,7 +40,6 @@ class Ticker {
         this.running = false
         this.client.close()
     }
-
 }
 
 module.exports = exports = Ticker
