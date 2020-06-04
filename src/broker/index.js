@@ -78,7 +78,7 @@ class Broker {
                 time, 
                 order: order.id, 
                 size: order.filledSize,
-                price: (order.filledPrice / order.filledSize)
+                price: (order.filledPrice / order.filledSize),
                 funds: (order.filledSize * order.filledPrice)
             }
 
@@ -168,7 +168,7 @@ class Broker {
             client_oid: token
         }
 
-        const amount: funds ? { funds } : { size }
+        const amount = funds ? { funds } : { size }
         return Object.assign(order, amount)
     }
 
