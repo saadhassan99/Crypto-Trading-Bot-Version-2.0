@@ -2,6 +2,6 @@
     "COINBASEPRO_API_KEY": "YOUR_COINBASEPRO_KEY",
     "COINBASEPRO_API_SECRET": "YOUR_COINBASEPRO_SECRET",
     "COINBASEPRO_API_PASSPHRASE": "YOUR_COINBASEPRO_PASSPHRASE",
-    "COINBASEPRO_API_URL": "https://docs.pro.coinbase.com/",
+    "COINBASEPRO_API_URL": "https://api.pro.coinbase.com/",
     "COINBASEPRO_WS_URL": "wss://ws-feed-public.sandbox.pro.coinbase.com"
 }

@@ -110,7 +110,7 @@ class Broker {
             return { size: funds / price, price: price }
         }
 
-        if (this.state !== 'running') { return }
+        if (this.state !== 'running') { return null }
         this.state = 'buying'
 
         const token = uuid()
@@ -123,15 +123,21 @@ class Broker {
         }
 
         const data = this.generateMarketData({ token, funds })
-        const order = await this.client.buy(data)
+        try {
+            const order = await this.client.buy(data)
 
-        if(order.message) {
+            if(order.message) {
             this.state = 'running'
             throw new Error(order.message)
-        }
+            }
         
-        const filled = await lock()
-        return filled
+            const filled = await lock()
+            this.state = 'running'
+            return filled
+        }catch(error) {
+            this.state = 'running'
+            throw error
+        }
     }
 
     async sell({ price, size, funds}) {
@@ -151,14 +157,20 @@ class Broker {
             }) 
         }
 
-        const data = this.generateMarketData({ data, size })
-        const order = await this.client.sell(data)
-        if(order.message) {
+        try {
+            const data = this.generateMarketData({ data, size })
+            const order = await this.client.sell(data)
+            if(order.message) {
+                this.state = 'running'
+                throw new Error(order.message)
+            }
+            const filled = await lock()
             this.state = 'running'
-            throw new Error(order.message)
+            return filled
+        }catch (error) {
+            this.state = 'running'
+            throw error
         }
-        const filled = await lock()
-        return filled
     }
 
     generateMarketData({ token, funds, size }) {
@@ -170,6 +182,16 @@ class Broker {
 
         const amount = funds ? { funds } : { size }
         return Object.assign(order, amount)
+    }
+
+    generateLimitData({ token, size, price }) {
+        const order = {
+            product_id: this.product,
+            type: 'limit',
+            client_oid: token,
+            size: size,
+            price: price
+        }
     }
 
 }
